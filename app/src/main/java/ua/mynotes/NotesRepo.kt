@@ -22,6 +22,8 @@ data class Note(
     val pinned: Boolean = false,
     val done: Boolean = false,
     val created: Long = id,
+    /** Manual position set by drag & drop; new notes go to the end. */
+    val order: Long = created,
 )
 
 const val NOTE_COLORS = 4
@@ -53,7 +55,8 @@ object NotesRepo {
             val lastColor = list.maxByOrNull { it.created }?.color ?: -1
             val now = System.currentTimeMillis()
             val id = maxOf(now, (list.maxOfOrNull { it.id } ?: 0) + 1)
-            list + Note(id = id, text = t, color = (lastColor + 1) % NOTE_COLORS, created = id)
+            val order = (list.maxOfOrNull { it.order } ?: 0) + 1
+            list + Note(id = id, text = t, color = (lastColor + 1) % NOTE_COLORS, created = id, order = order)
         }
     }
 
@@ -77,6 +80,12 @@ object NotesRepo {
         return done
     }
 
+    /** Saves a new manual order (ids in the order they should be shown). */
+    fun reorder(ids: List<Long>) {
+        val pos = ids.withIndex().associate { (i, id) -> id to i.toLong() }
+        update { l -> l.map { n -> pos[n.id]?.let { n.copy(order = it) } ?: n } }
+    }
+
     fun restore(items: List<Note>) = update { l ->
         val ids = l.map { it.id }.toSet()
         l + items.filterNot { it.id in ids }
@@ -98,9 +107,9 @@ object NotesRepo {
         }
     }
 
-    /** Active first (pinned on top), then done; inside each group — in order of creation. */
+    /** Active first (pinned on top), then done; inside each group — in manual order. */
     private fun sort(l: List<Note>) =
-        l.sortedWith(compareBy<Note>({ it.done }, { !it.pinned }, { it.created }))
+        l.sortedWith(compareBy<Note>({ it.done }, { !it.pinned }, { it.order }, { it.created }))
 
     private fun load(): List<Note> = runCatching {
         val arr = JSONArray(String(file.readFully(), Charsets.UTF_8))
@@ -113,6 +122,7 @@ object NotesRepo {
                 pinned = o.optBoolean("pinned"),
                 done = o.optBoolean("done"),
                 created = o.optLong("created", o.getLong("id")),
+                order = o.optLong("order", o.optLong("created", o.getLong("id"))),
             )
         }
     }.getOrDefault(emptyList())
@@ -123,7 +133,7 @@ object NotesRepo {
             arr.put(
                 JSONObject()
                     .put("id", it.id).put("text", it.text).put("color", it.color)
-                    .put("pinned", it.pinned).put("done", it.done).put("created", it.created)
+                    .put("pinned", it.pinned).put("done", it.done).put("created", it.created).put("order", it.order)
             )
         }
         val f = file

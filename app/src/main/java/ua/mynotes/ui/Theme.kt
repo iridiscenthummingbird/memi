@@ -8,6 +8,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
@@ -46,10 +47,7 @@ fun NotesTheme(content: @Composable () -> Unit) {
 @Composable
 fun noteColors(index: Int): Pair<Color, Color> {
     val c = MaterialTheme.colorScheme
-    return when (index) {
-        0 -> c.primaryContainer to c.onPrimaryContainer
-        1 -> c.tertiaryContainer to c.onTertiaryContainer
-        2 -> c.secondaryContainer to c.onSecondaryContainer
-        else -> c.errorContainer to c.onErrorContainer
-    }
+    val dark = c.background.luminance() < .5f
+    val palette = remember(c.primary, dark) { notePalette(c.primary, dark) }
+    return palette[index.mod(palette.size)]
 }

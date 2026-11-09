@@ -8,6 +8,7 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.ColorUtils
 
 /** hue == null → Material You (colours from the wallpaper). */
@@ -30,6 +31,20 @@ fun schemeFor(ctx: Context, themeIndex: Int, dark: Boolean): ColorScheme {
         return if (dark) dynamicDarkColorScheme(ctx) else dynamicLightColorScheme(ctx)
     }
     return toneScheme(theme.hue ?: 250f, dark)
+}
+
+/**
+ * Vivid ("acid") note colours: four hues derived from the theme's primary colour,
+ * at full saturation, with dark text on top. Shared by the app and the widget.
+ */
+fun notePalette(primary: Color, dark: Boolean): List<Pair<Color, Color>> {
+    val out = FloatArray(3)
+    ColorUtils.colorToHSL(primary.toArgb(), out)
+    val h = out[0]
+    return listOf(h, h + 60f, h - 45f, h + 150f).map { hue ->
+        if (!dark) hsl(hue, 1f, .70f) to hsl(hue, .85f, .12f)
+        else hsl(hue, .95f, .64f) to hsl(hue, .90f, .09f)
+    }
 }
 
 private fun hsl(h: Float, s: Float, l: Float): Color {
