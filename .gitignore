@@ -1,0 +1,15 @@
+.gradle/
+build/
+local.properties
+.idea/
+*.iml
+.kotlin/
+.DS_Store
+
+# Build outputs
+*.apk
+*.aab
+
+# Signing key — keep it out of the repository
+*.jks
+*.keystore

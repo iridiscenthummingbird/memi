@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Замітки</string>
+    <string name="widget_name">Замітки</string>
+    <string name="widget_desc">Короткі замітки на головному екрані</string>
+    <string name="shortcut_add">Нова замітка</string>
+</resources>
