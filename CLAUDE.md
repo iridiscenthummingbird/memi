@@ -6,6 +6,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 MyNotes (`ua.mynotes`) — a single-module Android to-do/notes app in Kotlin + Jetpack Compose (Material 3), with a Glance home-screen widget and a persistent lock-screen notification. minSdk 26, target/compile SDK 36, JVM 17. No DI, no ViewModels, no database. User-facing strings are Ukrainian and are mostly hardcoded in Kotlin (not only in `strings.xml`).
 
+## Workflow
+
+Do not use git worktrees in this project — work directly in the main checkout (owner's preference).
+
 ## Commands
 
 ```bash
