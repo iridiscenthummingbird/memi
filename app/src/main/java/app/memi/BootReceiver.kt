@@ -1,4 +1,4 @@
-package ua.mynotes
+package app.memi
 
 import android.content.BroadcastReceiver
 import android.content.Context

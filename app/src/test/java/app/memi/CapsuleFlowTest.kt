@@ -1,4 +1,4 @@
-package ua.mynotes
+package app.memi
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue

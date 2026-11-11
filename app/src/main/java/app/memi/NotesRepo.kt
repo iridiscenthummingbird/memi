@@ -1,4 +1,4 @@
-package ua.mynotes
+package app.memi
 
 import android.content.Context
 import android.util.AtomicFile
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
-import ua.mynotes.widget.NotesWidget
+import app.memi.widget.NotesWidget
 import java.io.File
 import java.io.FileNotFoundException
 

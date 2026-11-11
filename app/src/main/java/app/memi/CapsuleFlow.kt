@@ -1,4 +1,4 @@
-package ua.mynotes
+package app.memi
 
 import kotlin.math.max
 import kotlin.math.min

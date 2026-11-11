@@ -14,11 +14,11 @@ plugins {
 }
 
 android {
-    namespace = "ua.mynotes"
+    namespace = "app.memi"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "ua.mynotes"
+        applicationId = "app.memi"
         minSdk = 26
         targetSdk = 36
         versionCode = 1

@@ -1,4 +1,4 @@
-package ua.mynotes.ui
+package app.memi.ui
 
 import android.content.Context
 import android.os.Build
@@ -11,7 +11,7 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.ColorUtils
-import ua.mynotes.R
+import app.memi.R
 
 /** hue == null → Material You (colours from the wallpaper). */
 data class AppTheme(@StringRes val name: Int, val hue: Float?)

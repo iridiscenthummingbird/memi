@@ -1,4 +1,4 @@
-package ua.mynotes.ui
+package app.memi.ui
 
 import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -13,7 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import ua.mynotes.Settings
+import app.memi.Settings
 
 @Composable
 fun isDarkTheme(): Boolean {

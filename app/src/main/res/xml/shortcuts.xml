@@ -6,8 +6,8 @@
         android:icon="@drawable/ic_shortcut_add"
         android:shortcutShortLabel="@string/shortcut_add">
         <intent
-            android:action="ua.mynotes.ADD"
-            android:targetPackage="ua.mynotes"
-            android:targetClass="ua.mynotes.MainActivity" />
+            android:action="app.memi.ADD"
+            android:targetPackage="app.memi"
+            android:targetClass="app.memi.MainActivity" />
     </shortcut>
 </shortcuts>

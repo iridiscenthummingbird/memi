@@ -1,4 +1,4 @@
-package ua.mynotes.widget
+package app.memi.widget
 
 import android.content.Context
 import android.content.Intent
@@ -44,13 +44,13 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextDecoration
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
-import ua.mynotes.MainActivity
-import ua.mynotes.Note
-import ua.mynotes.NotesRepo
-import ua.mynotes.R
-import ua.mynotes.countLabel
-import ua.mynotes.Settings
-import ua.mynotes.ui.schemeFor
+import app.memi.MainActivity
+import app.memi.Note
+import app.memi.NotesRepo
+import app.memi.R
+import app.memi.countLabel
+import app.memi.Settings
+import app.memi.ui.schemeFor
 import android.os.Build
 import androidx.compose.material3.ColorScheme
 import androidx.compose.ui.graphics.Color
@@ -62,10 +62,10 @@ import android.util.TypedValue
 import androidx.compose.ui.unit.Dp
 import androidx.glance.LocalSize
 import androidx.glance.layout.ContentScale
-import ua.mynotes.CapsuleSeg
-import ua.mynotes.FlowStyle
-import ua.mynotes.flowCapsules
-import ua.mynotes.ui.notePalette
+import app.memi.CapsuleSeg
+import app.memi.FlowStyle
+import app.memi.flowCapsules
+import app.memi.ui.notePalette
 
 class NotesWidgetReceiver : GlanceAppWidgetReceiver() {
     override val glanceAppWidget: GlanceAppWidget = NotesWidget()

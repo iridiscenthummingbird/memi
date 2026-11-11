@@ -1,4 +1,4 @@
-package ua.mynotes.ui
+package app.memi.ui
 
 import android.Manifest
 import android.os.Build
@@ -103,15 +103,15 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
-import ua.mynotes.CapsuleSeg
-import ua.mynotes.FlowStyle
-import ua.mynotes.LockNotification
-import ua.mynotes.NOTE_COLORS
-import ua.mynotes.Note
-import ua.mynotes.NotesRepo
-import ua.mynotes.R
-import ua.mynotes.countLabel
-import ua.mynotes.flowCapsules
+import app.memi.CapsuleSeg
+import app.memi.FlowStyle
+import app.memi.LockNotification
+import app.memi.NOTE_COLORS
+import app.memi.Note
+import app.memi.NotesRepo
+import app.memi.R
+import app.memi.countLabel
+import app.memi.flowCapsules
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)

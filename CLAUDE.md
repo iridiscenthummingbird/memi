@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-MyNotes (`ua.mynotes`) — a single-module Android to-do/notes app in Kotlin + Jetpack Compose (Material 3), with a Glance home-screen widget and a persistent lock-screen notification. minSdk 26, target/compile SDK 36, JVM 17. No DI, no ViewModels, no database. User-facing strings are Ukrainian and live in `res/values/strings.xml` (use `stringResource`/`getString`, plural `R.plurals.notes_count` via `countLabel(ctx, n)`); don't hardcode new ones in Kotlin.
+Memi (formerly MyNotes; package renamed from `ua.mynotes` to `app.memi`) — a single-module Android to-do/notes app in Kotlin + Jetpack Compose (Material 3), with a Glance home-screen widget and a persistent lock-screen notification. minSdk 26, target/compile SDK 36, JVM 17. No DI, no ViewModels, no database. User-facing strings are Ukrainian and live in `res/values/strings.xml` (use `stringResource`/`getString`, plural `R.plurals.notes_count` via `countLabel(ctx, n)`); don't hardcode new ones in Kotlin.
 
 ## Workflow
 
@@ -17,7 +17,7 @@ Do not use git worktrees in this project — work directly in the main checkout 
 ./gradlew installDebug                  # install on connected device/emulator
 ./gradlew assembleRelease               # R8-minified; signed if app/release.jks + release.storePassword (local.properties or RELEASE_STOREPASSWORD env) exist, else unsigned
 ./gradlew testDebugUnitTest             # JVM unit tests
-./gradlew testDebugUnitTest --tests "ua.mynotes.CapsuleFlowTest.capsuleIsCutAtLineEndAndContinues"
+./gradlew testDebugUnitTest --tests "app.memi.CapsuleFlowTest.capsuleIsCutAtLineEndAndContinues"
 ```
 
 No lint/format tooling is configured beyond `kotlin.code.style=official`. Tests are pure-JVM (`app/src/test`): `CapsuleFlowTest` (layout) and `NotesLogicTest` (sorting, add/reorder/restore, JSON incl. old formats). `org.json` is a real test dependency because android.jar only has stubs. No instrumented tests. R8 keep rules are in `app/proguard-rules.pro` (Glance `ActionCallback`s are created by reflection).
@@ -33,7 +33,7 @@ No lint/format tooling is configured beyond `kotlin.code.style=official`. Tests 
 **Theming is duplicated across Compose and Glance.** `ui/Themes.kt` defines the theme list (index 0 = Material You/dynamic colours on API 31+, others = a single hue → generated M3 scheme) and `notePalette()` (4 vivid note colours derived from the primary). The app uses it via `NotesTheme`/`noteColors()`; the widget builds its own `ColorProviders`/palette from the same functions with `DayNightColor`, honouring `Settings.mode` (system/light/dark). Keep both mappings in sync when changing colours. `Note.color` is an index into this palette (`NOTE_COLORS = 4`).
 
 **Entry points into the app.**
-- `MainActivity` (`singleTask`) handles action `ua.mynotes.ADD` (from the widget "+" and the launcher shortcut in `res/xml/shortcuts.xml`) by bumping a counter that focuses the input field in `NotesScreen`.
+- `MainActivity` (`singleTask`) handles action `app.memi.ADD` (from the widget "+" and the launcher shortcut in `res/xml/shortcuts.xml`) by bumping a counter that focuses the input field in `NotesScreen`.
 - Widget taps on a note run `ToggleNoteAction` (Glance `ActionCallback`) directly against `NotesRepo`.
 - `BootReceiver` re-posts the lock-screen notification after boot/app update.
 

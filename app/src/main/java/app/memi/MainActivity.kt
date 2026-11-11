@@ -1,4 +1,4 @@
-package ua.mynotes
+package app.memi
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,12 +6,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.mutableIntStateOf
-import ua.mynotes.ui.NotesScreen
-import ua.mynotes.ui.NotesTheme
+import app.memi.ui.NotesScreen
+import app.memi.ui.NotesTheme
 
 class MainActivity : ComponentActivity() {
     companion object {
-        const val ACTION_ADD = "ua.mynotes.ADD"
+        const val ACTION_ADD = "app.memi.ADD"
     }
 
     /** Incremented every time the app is opened via "+" (widget / shortcut) to focus the input. */
