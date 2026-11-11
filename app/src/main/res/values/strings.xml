@@ -3,4 +3,56 @@
     <string name="widget_name">Замітки</string>
     <string name="widget_desc">Короткі замітки на головному екрані</string>
     <string name="shortcut_add">Нова замітка</string>
+
+    <!-- Count of active notes: 1 справа, 2 справи, 5 справ -->
+    <plurals name="notes_count">
+        <item quantity="one">%d справа</item>
+        <item quantity="few">%d справи</item>
+        <item quantity="many">%d справ</item>
+        <item quantity="other">%d справи</item>
+    </plurals>
+
+    <!-- Main screen -->
+    <string name="all_done_party">Все зроблено 🎉</string>
+    <string name="action_done">Готово</string>
+    <string name="action_undo">Повернути</string>
+    <string name="action_add">Додати</string>
+    <string name="action_delete">Видалити</string>
+    <string name="action_save">Зберегти</string>
+    <string name="action_pin">Закріпити</string>
+    <string name="delete_done">Видалити виконані</string>
+    <string name="done_deleted">Виконані видалено</string>
+    <string name="note_deleted">Видалено «%1$s»</string>
+    <string name="empty_hint">Поки що порожньо.\nНапиши щось унизу — наприклад, «купити молоко»</string>
+    <string name="input_placeholder">Нова замітка…</string>
+    <string name="save_failed">Не вдалося зберегти зміни</string>
+
+    <!-- Settings -->
+    <string name="settings">Налаштування</string>
+    <string name="settings_theme">Кольорова тема</string>
+    <string name="settings_mode">Режим</string>
+    <string name="mode_system">Авто</string>
+    <string name="mode_light">Світла</string>
+    <string name="mode_dark">Темна</string>
+    <string name="settings_lock">На екрані блокування</string>
+    <string name="settings_lock_desc">Тихе сповіщення зі списком справ</string>
+
+    <!-- Theme names -->
+    <string name="theme_system">Як у системі</string>
+    <string name="theme_lavender">Лаванда</string>
+    <string name="theme_ocean">Океан</string>
+    <string name="theme_mint">М\'ята</string>
+    <string name="theme_forest">Ліс</string>
+    <string name="theme_sand">Пісок</string>
+    <string name="theme_coral">Корал</string>
+    <string name="theme_raspberry">Малина</string>
+
+    <!-- Widget -->
+    <string name="all_done">Все зроблено</string>
+    <string name="widget_empty">Натисни +, щоб додати</string>
+
+    <!-- Lock-screen notification -->
+    <string name="lock_more">і ще %d</string>
+    <string name="lock_channel_name">Замітки на екрані блокування</string>
+    <string name="lock_channel_desc">Постійне тихе сповіщення зі списком справ</string>
 </resources>

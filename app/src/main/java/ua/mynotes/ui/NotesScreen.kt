@@ -92,6 +92,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.rememberTextMeasurer
@@ -149,12 +150,17 @@ fun NotesScreen(focusRequest: Int) {
         }
     }
     LaunchedEffect(Unit) { if (lockEnabled) askPermissionIfNeeded() }
+    LaunchedEffect(Unit) {
+        NotesRepo.saveErrors.collect {
+            snackbar.showSnackbar(ctx.getString(R.string.save_failed), duration = SnackbarDuration.Long)
+        }
+    }
 
     fun undoable(message: String, items: List<Note>) {
         if (items.isEmpty()) return
         scope.launch {
             snackbar.currentSnackbarData?.dismiss()
-            val r = snackbar.showSnackbar(message, "Повернути", duration = SnackbarDuration.Short)
+            val r = snackbar.showSnackbar(message, ctx.getString(R.string.action_undo), duration = SnackbarDuration.Short)
             if (r == SnackbarResult.ActionPerformed) NotesRepo.restore(items)
         }
     }
@@ -169,9 +175,9 @@ fun NotesScreen(focusRequest: Int) {
             LargeTopAppBar(
                 title = {
                     Column {
-                        Text("Замітки")
+                        Text(stringResource(R.string.app_name))
                         if (notes.isNotEmpty()) Text(
-                            if (active == 0) "Все зроблено 🎉" else countLabel(active),
+                            if (active == 0) stringResource(R.string.all_done_party) else countLabel(ctx, active),
                             style = MaterialTheme.typography.labelLarge,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
@@ -179,13 +185,13 @@ fun NotesScreen(focusRequest: Int) {
                 },
                 actions = {
                     if (arranging) {
-                        TextButton(onClick = { arranging = false }) { Text("Готово") }
+                        TextButton(onClick = { arranging = false }) { Text(stringResource(R.string.action_done)) }
                     } else {
                         if (hasDone) IconButton(onClick = {
-                            undoable("Виконані видалено", NotesRepo.clearDone())
-                        }) { Icon(Icons.Default.Delete, "Видалити виконані") }
+                            undoable(ctx.getString(R.string.done_deleted), NotesRepo.clearDone())
+                        }) { Icon(Icons.Default.Delete, stringResource(R.string.delete_done)) }
                         IconButton(onClick = { settingsOpen = true }) {
-                            Icon(Icons.Default.Settings, "Налаштування")
+                            Icon(Icons.Default.Settings, stringResource(R.string.settings))
                         }
                     }
                 },
@@ -200,7 +206,7 @@ fun NotesScreen(focusRequest: Int) {
                     Text("✨", style = MaterialTheme.typography.displayMedium)
                     Spacer(Modifier.height(12.dp))
                     Text(
-                        "Поки що порожньо.\nНапиши щось унизу — наприклад, «купити молоко»",
+                        stringResource(R.string.empty_hint),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -232,7 +238,7 @@ fun NotesScreen(focusRequest: Int) {
                         }
                     },
                     onDelete = { note ->
-                        NotesRepo.delete(note.id)?.let { undoable("Видалено «${it.text}»", listOf(it)) }
+                        NotesRepo.delete(note.id)?.let { undoable(ctx.getString(R.string.note_deleted, it.text), listOf(it)) }
                     },
                     onEmptyTap = { arranging = false },
                     onDragStart = { note, pos ->
@@ -284,7 +290,7 @@ fun NotesScreen(focusRequest: Int) {
             },
             onDelete = {
                 editing = null
-                NotesRepo.delete(note.id)?.let { undoable("Видалено «${it.text}»", listOf(it)) }
+                NotesRepo.delete(note.id)?.let { undoable(ctx.getString(R.string.note_deleted, it.text), listOf(it)) }
             },
         )
     }
@@ -449,7 +455,7 @@ private fun CapsuleFlow(
                     contentAlignment = Alignment.Center,
                 ) {
                     Icon(
-                        Icons.Default.Close, "Видалити",
+                        Icons.Default.Close, stringResource(R.string.action_delete),
                         Modifier.size(14.dp),
                         tint = MaterialTheme.colorScheme.inverseOnSurface,
                     )
@@ -550,7 +556,7 @@ private fun InputBar(focusRequest: Int) {
                 value = text,
                 onValueChange = { text = it.replace("\n", "") },
                 modifier = Modifier.weight(1f).focusRequester(focus),
-                placeholder = { Text("Нова замітка…") },
+                placeholder = { Text(stringResource(R.string.input_placeholder)) },
                 singleLine = true,
                 shape = CircleShape,
                 colors = TextFieldDefaults.colors(
@@ -572,7 +578,7 @@ private fun InputBar(focusRequest: Int) {
                 onClick = { submit() },
                 enabled = text.isNotBlank(),
                 modifier = Modifier.size(56.dp),
-            ) { Icon(Icons.Default.Add, "Додати") }
+            ) { Icon(Icons.Default.Add, stringResource(R.string.action_add)) }
         }
     }
 }
@@ -633,7 +639,7 @@ private fun EditSheet(
                 FilterChip(
                     selected = pinned,
                     onClick = { pinned = !pinned },
-                    label = { Text("Закріпити") },
+                    label = { Text(stringResource(R.string.action_pin)) },
                     leadingIcon = { Icon(painterResource(R.drawable.ic_pin), null, Modifier.size(18.dp)) },
                 )
             }
@@ -642,10 +648,10 @@ private fun EditSheet(
                 TextButton(onClick = onDelete) {
                     Icon(Icons.Default.Delete, null, Modifier.size(18.dp), tint = MaterialTheme.colorScheme.error)
                     Spacer(Modifier.width(6.dp))
-                    Text("Видалити", color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(R.string.action_delete), color = MaterialTheme.colorScheme.error)
                 }
                 Spacer(Modifier.weight(1f))
-                Button(onClick = { onSave(text, color, pinned) }, enabled = text.isNotBlank()) { Text("Зберегти") }
+                Button(onClick = { onSave(text, color, pinned) }, enabled = text.isNotBlank()) { Text(stringResource(R.string.action_save)) }
             }
         }
     }

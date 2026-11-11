@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 11 and older: Auto Backup contents. -->
+<full-backup-content>
+    <include domain="file" path="notes.json" />
+    <include domain="sharedpref" path="settings.xml" />
+</full-backup-content>

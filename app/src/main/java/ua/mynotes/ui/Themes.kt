@@ -2,6 +2,7 @@ package ua.mynotes.ui
 
 import android.content.Context
 import android.os.Build
+import androidx.annotation.StringRes
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -10,19 +11,20 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.ColorUtils
+import ua.mynotes.R
 
 /** hue == null → Material You (colours from the wallpaper). */
-data class AppTheme(val name: String, val hue: Float?)
+data class AppTheme(@StringRes val name: Int, val hue: Float?)
 
 val THEMES = listOf(
-    AppTheme("Як у системі", null),
-    AppTheme("Лаванда", 250f),
-    AppTheme("Океан", 205f),
-    AppTheme("М'ята", 165f),
-    AppTheme("Ліс", 110f),
-    AppTheme("Пісок", 38f),
-    AppTheme("Корал", 12f),
-    AppTheme("Малина", 335f),
+    AppTheme(R.string.theme_system, null),
+    AppTheme(R.string.theme_lavender, 250f),
+    AppTheme(R.string.theme_ocean, 205f),
+    AppTheme(R.string.theme_mint, 165f),
+    AppTheme(R.string.theme_forest, 110f),
+    AppTheme(R.string.theme_sand, 38f),
+    AppTheme(R.string.theme_coral, 12f),
+    AppTheme(R.string.theme_raspberry, 335f),
 )
 
 fun schemeFor(ctx: Context, themeIndex: Int, dark: Boolean): ColorScheme {

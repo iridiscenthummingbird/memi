@@ -164,12 +164,12 @@ private fun WidgetContent(context: Context, notes: List<Note>, palette: List<Pai
                     .clickable(actionStartActivity<MainActivity>())
             ) {
                 Text(
-                    "Замітки",
+                    context.getString(R.string.app_name),
                     style = TextStyle(color = c.onSurface, fontSize = 18.sp, fontWeight = FontWeight.Medium),
                     maxLines = 1,
                 )
                 Text(
-                    if (active == 0) "Все зроблено" else countLabel(active),
+                    if (active == 0) context.getString(R.string.all_done) else countLabel(context, active),
                     style = TextStyle(color = c.onSurfaceVariant, fontSize = 12.sp),
                     maxLines = 1,
                 )
@@ -183,7 +183,7 @@ private fun WidgetContent(context: Context, notes: List<Note>, palette: List<Pai
             ) {
                 Image(
                     provider = ImageProvider(R.drawable.ic_add),
-                    contentDescription = "Додати",
+                    contentDescription = context.getString(R.string.action_add),
                     colorFilter = ColorFilter.tint(c.onPrimary),
                     modifier = GlanceModifier.size(24.dp),
                 )
@@ -197,7 +197,7 @@ private fun WidgetContent(context: Context, notes: List<Note>, palette: List<Pai
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
-                    "Натисни +, щоб додати",
+                    context.getString(R.string.widget_empty),
                     style = TextStyle(color = c.onSurfaceVariant, fontSize = 14.sp),
                 )
             }

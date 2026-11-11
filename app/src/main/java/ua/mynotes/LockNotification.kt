@@ -51,11 +51,11 @@ object LockNotification {
         )
         val style = NotificationCompat.InboxStyle()
         active.take(7).forEach { style.addLine("•  ${it.text}") }
-        if (active.size > 7) style.setSummaryText("і ще ${active.size - 7}")
+        if (active.size > 7) style.setSummaryText(ctx.getString(R.string.lock_more, active.size - 7))
 
         val n = NotificationCompat.Builder(ctx, CHANNEL)
             .setSmallIcon(R.drawable.ic_stat_notes)
-            .setContentTitle(countLabel(active.size))
+            .setContentTitle(countLabel(ctx, active.size))
             .setContentText(active.joinToString(" · ") { it.text })
             .setStyle(style)
             .setContentIntent(open)
@@ -76,8 +76,8 @@ object LockNotification {
     private fun ensureChannel(ctx: Context) {
         val nm = ctx.getSystemService(NotificationManager::class.java)
         if (nm.getNotificationChannel(CHANNEL) != null) return
-        val ch = NotificationChannel(CHANNEL, "Замітки на екрані блокування", NotificationManager.IMPORTANCE_DEFAULT).apply {
-            description = "Постійне тихе сповіщення зі списком справ"
+        val ch = NotificationChannel(CHANNEL, ctx.getString(R.string.lock_channel_name), NotificationManager.IMPORTANCE_DEFAULT).apply {
+            description = ctx.getString(R.string.lock_channel_desc)
             setSound(null, null)
             enableVibration(false)
             setShowBadge(false)

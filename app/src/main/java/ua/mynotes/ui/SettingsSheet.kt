@@ -38,9 +38,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import ua.mynotes.R
 import ua.mynotes.Settings
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -61,12 +63,12 @@ fun SettingsSheet(
     ) {
         Column(Modifier.fillMaxWidth().padding(bottom = 24.dp)) {
             Text(
-                "Налаштування",
+                stringResource(R.string.settings),
                 style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier.padding(horizontal = 24.dp),
             )
             Spacer(Modifier.height(20.dp))
-            SectionLabel("Кольорова тема")
+            SectionLabel(stringResource(R.string.settings_theme))
             Row(
                 Modifier
                     .horizontalScroll(rememberScrollState())
@@ -75,7 +77,7 @@ fun SettingsSheet(
             ) {
                 THEMES.forEachIndexed { i, t ->
                     ThemeSwatch(
-                        name = t.name,
+                        name = stringResource(t.name),
                         index = i,
                         dark = dark,
                         selected = theme == i,
@@ -84,11 +86,11 @@ fun SettingsSheet(
                 }
             }
             Spacer(Modifier.height(20.dp))
-            SectionLabel("Режим")
+            SectionLabel(stringResource(R.string.settings_mode))
             SingleChoiceSegmentedButtonRow(
                 Modifier.fillMaxWidth().padding(horizontal = 24.dp)
             ) {
-                val labels = listOf("Авто", "Світла", "Темна")
+                val labels = listOf(R.string.mode_system, R.string.mode_light, R.string.mode_dark).map { stringResource(it) }
                 labels.forEachIndexed { i, label ->
                     SegmentedButton(
                         selected = mode == i,
@@ -104,8 +106,8 @@ fun SettingsSheet(
                     .clip(RoundedCornerShape(16.dp))
                     .clickable { onLockChange(!lockEnabled) },
                 colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
-                headlineContent = { Text("На екрані блокування") },
-                supportingContent = { Text("Тихе сповіщення зі списком справ") },
+                headlineContent = { Text(stringResource(R.string.settings_lock)) },
+                supportingContent = { Text(stringResource(R.string.settings_lock_desc)) },
                 trailingContent = { Switch(checked = lockEnabled, onCheckedChange = onLockChange) },
             )
         }

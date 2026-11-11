@@ -1,4 +1,11 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
+
+// Release signing secrets come from local.properties (gitignored) or environment variables.
+val localProps = Properties().apply {
+    rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { load(it) }
+}
+fun secret(key: String): String? = localProps.getProperty(key) ?: System.getenv(key.uppercase().replace('.', '_'))
 
 plugins {
     id("com.android.application")
@@ -18,19 +25,23 @@ android {
         versionName = "1.0"
     }
 
+    val storePass = secret("release.storePassword")
     signingConfigs {
-        create("release") {
-            storeFile = file("release.jks")
-            storePassword = "mynotes"
-            keyAlias = "mynotes"
-            keyPassword = "mynotes"
+        if (storePass != null) create("release") {
+            storeFile = file(secret("release.storeFile") ?: "release.jks")
+            storePassword = storePass
+            keyAlias = secret("release.keyAlias") ?: "mynotes"
+            keyPassword = secret("release.keyPassword") ?: storePass
         }
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
-            signingConfig = signingConfigs.getByName("release")
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            // Without secrets the release APK is built unsigned instead of failing the build.
+            signingConfig = signingConfigs.findByName("release")
         }
     }
 
@@ -54,5 +65,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.9.1")
     implementation("androidx.glance:glance-appwidget:1.1.1")
     implementation("androidx.glance:glance-material3:1.1.1")
-    testImplementation("junit:junit:4.12")
+    testImplementation("junit:junit:4.13.2")
+    // android.jar only has stubs of org.json; the real implementation is needed for JVM tests
+    testImplementation("org.json:json:20240303")
 }
