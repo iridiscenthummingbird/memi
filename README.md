@@ -1,58 +1,74 @@
 # Memi
 
-A minimal Android to-do / notes app. Notes are shown as colourful "capsules" that flow like words in a sentence, and are always at hand: in the app, on a home-screen widget, and on the lock screen.
+**Tiny to-dos that are always in sight.**
 
-Built with Kotlin and Jetpack Compose (Material 3). The UI is in Ukrainian.
+Memi is a simple to-do app for Android. Type a short note, press enter, and it shows up as a colourful capsule. The capsules flow across the screen like words in a sentence. Your list is always one glance away: on the home screen, in the notification shade and on the lock screen. You don't have to open the app to see what's next.
 
-## Features
+<p align="center">
+  <img src="docs/screenshots/main.png" width="240" alt="Main screen with colourful note capsules">
+  &nbsp;
+  <img src="docs/screenshots/widget.png" width="240" alt="Home-screen widget">
+  &nbsp;
+  <img src="docs/screenshots/notification.png" width="240" alt="Notification listing active notes">
+</p>
 
-- **Capsule flow layout.** Notes wrap like text, and a long note splits across lines.
-- **Quick actions.** Tap a note to mark it done. Long-press to enter arrange mode, where you can drag to reorder, tap to edit, or delete (with undo).
-- **Pinning and colours.** Pinned notes stay at the top. Each note can use one of 4 colours taken from the current theme.
-- **Home-screen widget** (Glance). Shows the same capsule layout, toggles notes in place, and has a "+" button for quick add.
-- **Lock-screen notification.** An optional, silent, ongoing notification that lists your active notes.
-- **Themes.** Material You dynamic colours (Android 12+) or a set of preset hues, with system, light or dark mode.
-- **Launcher shortcut** to add a note straight away.
-- **Offline and private.** Notes are stored locally as JSON. There is no account, network access or tracking.
+## Why Memi
+
+- **Fast.** Type and press enter, with no titles, folders or due dates. A long note wraps neatly onto the next line.
+- **Always visible.** The home-screen widget and the lock-screen notification keep your list in front of you all day.
+- **Colourful and calm.** Each note gets a bright colour, and finished notes fade into a quiet outline.
+- **Private.** Everything stays on your phone. There are no accounts and no ads, and nothing is sent anywhere.
+
+## How to use it
+
+| To… | Do this |
+|---|---|
+| Add a note | Type in the **Нова замітка…** field and tap **+**. You can also use the **+** on the widget or long-press the app icon. |
+| Mark a note done (or undo it) | Tap it. |
+| Rearrange, edit or delete | Long-press any note to enter arrange mode. Drag notes to reorder them, tap one to edit its text, colour or pin, or tap ✕ to delete it. If you delete by mistake, tap **Повернути** (undo). |
+| Keep a note at the top | Pin it in the edit sheet. Pinned notes show a 📌. |
+| Clear finished notes | Tap the 🗑 icon at the top. |
+
+## Home-screen widget
+
+Long-press an empty spot on your home screen and choose **Widgets → Memi**. Your list appears right on the home screen, and you can tap a note there to tick it off. The widget is resizable, so stretch it to fit as many notes as you like.
+
+## On the lock screen
+
+Memi can show your active notes as a silent notification. It never buzzes or makes a sound; it simply stays there, so you see your list every time you pick up your phone. You can turn it on or off under **Settings → На екрані блокування**.
+
+## Make it yours
+
+<p align="center">
+  <img src="docs/screenshots/settings.png" width="240" alt="Settings: colour themes, light/dark mode, lock-screen toggle">
+  &nbsp;
+  <img src="docs/screenshots/dark.png" width="240" alt="Dark mode with the Lavender theme">
+</p>
+
+Pick a colour theme. **Як у системі** follows your wallpaper colours on Android 12+, and there are also Lavender, Ocean, Mint, Forest and more. You can use light mode, dark mode or follow the system setting. The widget and the notification use the same look.
 
 ## Requirements
 
-- Android 8.0+ (minSdk 26), targets SDK 36
-- JDK 17 to build
+- Android 8.0 or newer
+- The app is in Ukrainian 🇺🇦
 
-## Build
+## Install
+
+There is no store listing yet, so you build the APK from source (see below) and install it on your phone.
+
+---
+
+## For developers
+
+Memi is written in Kotlin with Jetpack Compose (Material 3), and the widget uses Glance. You need JDK 17 to build it.
 
 ```bash
 ./gradlew assembleDebug        # debug APK → app/build/outputs/apk/debug/
 ./gradlew installDebug         # install on a connected device/emulator
-./gradlew testDebugUnitTest    # JVM unit tests
-./gradlew assembleRelease      # R8-minified release build
+./gradlew testDebugUnitTest    # unit tests
+./gradlew assembleRelease      # minified release build
 ```
 
-### Release signing
+To sign a release build, put `app/release.jks` in place and set `release.storePassword` in `local.properties` (gitignored). You can also set `release.keyPassword`, `release.keyAlias` and `release.storeFile`, or provide all of them as `RELEASE_*` environment variables. Without a key, the release APK is built unsigned.
 
-A release build is signed when `app/release.jks` exists and a store password is provided. Otherwise it is built unsigned. Set the values in `local.properties` (gitignored):
-
-```properties
-release.storePassword=...
-release.keyPassword=...      # optional, defaults to the store password
-release.keyAlias=...         # optional
-release.storeFile=...        # optional, defaults to release.jks
-```
-
-You can also set them as environment variables (`RELEASE_STOREPASSWORD`, `RELEASE_KEYPASSWORD`, …).
-
-## Project structure
-
-```
-app/src/main/java/app/memi/
-├── NotesRepo.kt          # single source of truth, JSON persistence, list logic
-├── Settings.kt           # theme / mode / lock-notification prefs
-├── CapsuleFlow.kt        # pure capsule flow layout (shared by app + widget)
-├── LockNotification.kt   # lock-screen notification
-├── MainActivity.kt, App.kt, BootReceiver.kt
-├── ui/                   # Compose screen, settings sheet, themes
-└── widget/               # Glance home-screen widget
-```
-
-See [CLAUDE.md](CLAUDE.md) for a more detailed architecture overview.
+For the architecture overview, see [CLAUDE.md](CLAUDE.md).
